@@ -1,10 +1,11 @@
-package com.adthena.shopping_basket
+package com.adthena.shopping_basket.core
+
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
 class ItemTest extends AnyFunSuite with Matchers{
 
-  val bread: Item = Item("bread", 80)
+  val bread: Item = Item("bread", Price(80))
 
   test("get name") {
 
@@ -14,7 +15,7 @@ class ItemTest extends AnyFunSuite with Matchers{
 
   test("get price") {
 
-    bread.price shouldBe 80
+    bread.price shouldBe Price(80)
 
   }
 
