@@ -1,21 +1,19 @@
 package com.adthena
 
-import com.adthena.shopping_basket.core.Discount
+import com.adthena.shopping_basket.core.{Basket, Discount}
 import com.adthena.shopping_basket.data.OffersDB
-import com.adthena.shopping_basket.parsing.BasketParser
+import com.adthena.shopping_basket.parsing.ItemParser
 import com.adthena.shopping_basket.view.CommandLineView
 
-object Main {
+object Main extends App {
 
-  def main(args: Array[String]): Unit = {
+  val tryItems = ItemParser.parseItems(args)
+  CommandLineView.showInvalidItems(tryItems)
 
-    val basket = BasketParser.parseItems(args)
-    val discount = Discount.evaluate(basket, OffersDB.getAll)
+  val basket = new Basket(tryItems)
+  val discount = Discount.evaluate(basket, OffersDB.getCurrentOffers)
 
-    CommandLineView.show(basket, discount)
-
-  }
-
+  CommandLineView.show(basket, discount)
 
 
 }

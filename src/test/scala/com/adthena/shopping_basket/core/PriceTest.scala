@@ -32,6 +32,15 @@ class PriceTest extends AnyFunSuite with Matchers {
 
   }
 
+  test("price zero") {
+
+    val price = Price(0)
+
+    price.value shouldBe 0
+    price.toString shouldBe "0p"
+
+  }
+
   test("invalid price") {
 
     val thrown = intercept[Exception] {

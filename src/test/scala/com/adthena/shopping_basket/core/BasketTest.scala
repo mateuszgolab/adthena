@@ -3,7 +3,9 @@ package com.adthena.shopping_basket.core
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
-class BasketTest extends AnyFunSuite with Matchers{
+import scala.util.{Failure, Try}
+
+class BasketTest extends AnyFunSuite with Matchers {
 
   // empty basket
   val emptyBasket = new Basket(List().empty)
@@ -24,7 +26,7 @@ class BasketTest extends AnyFunSuite with Matchers{
 
   test("getTotalCost() - total basket cost without offers") {
 
-    basket.getTotalCost shouldBe  Price(455)
+    basket.getTotalCost shouldBe Price(455)
 
   }
 
@@ -61,6 +63,15 @@ class BasketTest extends AnyFunSuite with Matchers{
   test("contains() - basket contains a given item") {
 
     basket.contains(bread) shouldBe true
+
+  }
+
+  test("auxiliary constructor") {
+
+    val input: Array[Try[Item]] = Array[Try[Item]](Try(soup), Failure(new Exception("test")))
+    val basket = new Basket(input)
+
+    basket.contains(soup) shouldBe true
 
   }
 

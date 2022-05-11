@@ -1,6 +1,6 @@
 package com.adthena.shopping_basket.core.offer
 
-import com.adthena.shopping_basket.core.{Item, Price}
+import com.adthena.shopping_basket.core.{Basket, Item, Price}
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 
@@ -12,6 +12,10 @@ class MultiOfferTest extends AnyFunSuite with Matchers {
     val soup: Item = Item("Soup", Price(65))
     val bread: Item = Item("Bread", Price(80))
 
+    // baskets
+    val applicableBasket = new Basket(List(soup, soup, bread))
+    val nonApplicableBasket = new Basket(List(soup, bread))
+
     // offer
     val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", List(soup, soup), bread, 50)
 
@@ -20,6 +24,8 @@ class MultiOfferTest extends AnyFunSuite with Matchers {
     soupBreadOffer.discountedItem shouldBe bread
     soupBreadOffer.priceDiscount shouldBe Price(40)
     soupBreadOffer.toString shouldBe "Buy 2 tins of soup and get bread 50% off: 40p"
+    soupBreadOffer.isApplicable(applicableBasket) shouldBe true
+    soupBreadOffer.isApplicable(nonApplicableBasket) shouldBe false
 
   }
 

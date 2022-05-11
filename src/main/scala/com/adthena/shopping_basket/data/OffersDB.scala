@@ -20,7 +20,7 @@ object OffersDB {
     new SimpleDiscountOffer("Apples 10% off", apples.get, 10)
   )
 
-  def getAll: List[Offer] = list
+  def getCurrentOffers: List[Offer] = list
 
 
 }

@@ -15,7 +15,7 @@ class DiscountTest extends AnyFunSuite with Matchers {
   // offers
   val applesOffer: MultiOffer = new SimpleDiscountOffer("Apples 10% off", apples, 10)
   val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", List(soup, soup), bread, 50)
-  val allOffers: List[MultiOffer] = List(applesOffer, soupBreadOffer)
+  val currentOffers: List[MultiOffer] = List(applesOffer, soupBreadOffer)
 
 
   test("evaluate() - basket with a single offer applied") {
@@ -23,9 +23,9 @@ class DiscountTest extends AnyFunSuite with Matchers {
     val basket = new Basket(List(apples, milk, bread))
     basket.getTotalCost shouldBe Price(310)
 
-    val discount = Discount.evaluate(basket, allOffers)
+    val discount = Discount.evaluate(basket, currentOffers)
     discount.priceDiscount shouldBe Price(10)
-    discount.offersApplied shouldBe List(applesOffer)
+    discount.applicableOffers shouldBe List(applesOffer)
 
   }
 
@@ -34,20 +34,20 @@ class DiscountTest extends AnyFunSuite with Matchers {
     val basket = new Basket(List(milk))
     basket.getTotalCost shouldBe Price(130)
 
-    val discount = Discount.evaluate(basket, allOffers)
+    val discount = Discount.evaluate(basket, currentOffers)
     discount.priceDiscount shouldBe Price(0)
-    discount.offersApplied.isEmpty shouldBe true
+    discount.applicableOffers.isEmpty shouldBe true
 
   }
 
-  test("evaluate() - basket with all the offers applied") {
+  test("evaluate() - basket with all given offers applied") {
 
     val basket = new Basket(List(apples, milk, bread, soup, soup))
     basket.getTotalCost shouldBe Price(440)
 
-    val discount = Discount.evaluate(basket, allOffers)
+    val discount = Discount.evaluate(basket, currentOffers)
     discount.priceDiscount shouldBe Price(50)
-    discount.offersApplied shouldBe allOffers
+    discount.applicableOffers shouldBe currentOffers
 
   }
 

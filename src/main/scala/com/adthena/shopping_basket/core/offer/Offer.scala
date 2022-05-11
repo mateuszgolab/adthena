@@ -10,7 +10,7 @@ trait Offer {
   val name : String
 
   /**
-   * a discount represented as Price
+   * offer discount represented as a Price
    */
   val priceDiscount : Price
 

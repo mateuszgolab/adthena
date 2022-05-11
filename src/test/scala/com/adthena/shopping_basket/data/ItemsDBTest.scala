@@ -21,7 +21,7 @@ class ItemsDBTest extends AnyFunSuite with Matchers {
 
     val result = ItemsDB.getItem("chocolate")
 
-    result.nonEmpty shouldBe false
+    result.isEmpty shouldBe true
 
   }
 

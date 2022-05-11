@@ -6,9 +6,9 @@ import com.adthena.shopping_basket.core.offer.Offer
  * Represents a discount applied for a given basket with a given offers
  *
  * @param priceDiscount price discount represented as a price object
- * @param offersApplied offers applied for a given basket
+ * @param applicableOffers applicable offers for a given basket
  */
-class Discount(val priceDiscount: Price, val offersApplied: List[Offer])
+class Discount(val priceDiscount: Price, val applicableOffers: List[Offer])
 
 object Discount {
 
