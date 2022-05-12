@@ -10,11 +10,9 @@ import com.adthena.shopping_basket.core.{Basket, Item}
  * @param discountPercentage discount represented as a percentage e.g. 10 means 10% discount
  */
 class SimpleDiscountOffer(name: String, item: Item, discountPercentage: Int)
-  extends MultiOffer(name, List(item), item, discountPercentage) {
+  extends PercentageOffer(name, item, discountPercentage) {
 
-  override def toString: String = item.name + " " + discountPercentage + "% off: " + priceDiscount
-
-  override def isApplicable(basket: Basket): Boolean = basket.contains(item)
+  override def getApplicationsCount(basket: Basket): Int = basket.count(item)
 
 }
 

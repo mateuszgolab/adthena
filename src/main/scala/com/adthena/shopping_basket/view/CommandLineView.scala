@@ -14,7 +14,7 @@ object CommandLineView {
    * - the price of the basket before and after applying the offers
    * - the details of the offers applied
    *
-   * @param basket shopping basket
+   * @param basket   shopping basket
    * @param discount discount object
    */
   def show(basket: Basket, discount: Discount): Unit = {
@@ -24,16 +24,17 @@ object CommandLineView {
     if (discount.applicableOffers.isEmpty) {
       System.out.println("(No offers available)")
     } else {
-      discount.applicableOffers.foreach(offer => System.out.println(offer))
+      discount.applicableOffers.foreach(offer => System.out.println(offer._1.name + ": " + offer._2))
     }
 
-    val totalPrice = basket.getTotalCost.value - discount.priceDiscount.value
+    val totalPrice = basket.getTotalCost.value - discount.totalPriceDiscount.value
     System.out.println("Total price: " + Price(totalPrice))
 
   }
 
   /**
    * display in the command line invalid shopping items
+   *
    * @param list list of parsed items
    */
   def showInvalidItems(list: Array[Try[Item]]): Unit = {

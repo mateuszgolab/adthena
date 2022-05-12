@@ -17,15 +17,58 @@ class MultiOfferTest extends AnyFunSuite with Matchers {
     val nonApplicableBasket = new Basket(List(soup, bread))
 
     // offer
-    val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", List(soup, soup), bread, 50)
+    val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", Map(soup -> 2), bread, 50)
 
     soupBreadOffer.name shouldBe "Buy 2 tins of soup and get bread 50% off"
-    soupBreadOffer.requiredItems shouldBe List(soup, soup)
+    soupBreadOffer.requiredItems shouldBe Map(soup -> 2)
     soupBreadOffer.discountedItem shouldBe bread
     soupBreadOffer.priceDiscount shouldBe Price(40)
-    soupBreadOffer.toString shouldBe "Buy 2 tins of soup and get bread 50% off: 40p"
-    soupBreadOffer.isApplicable(applicableBasket) shouldBe true
-    soupBreadOffer.isApplicable(nonApplicableBasket) shouldBe false
+    soupBreadOffer.getApplicationsCount(applicableBasket) shouldBe 1
+    soupBreadOffer.getTotalDiscount(applicableBasket) shouldBe Price(40)
+    soupBreadOffer.getApplicationsCount(nonApplicableBasket) shouldBe 0
+    soupBreadOffer.getTotalDiscount(nonApplicableBasket) shouldBe Price(0)
+
+  }
+
+  test("multi item offer with multiple purchases applicable") {
+
+    // items
+    val soup: Item = Item("Soup", Price(65))
+    val bread: Item = Item("Bread", Price(80))
+
+    // baskets
+    val applicableBasket = new Basket(List(soup, soup, bread, soup, soup ,bread))
+
+    // offer
+    val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", Map(soup -> 2), bread, 50)
+
+    soupBreadOffer.name shouldBe "Buy 2 tins of soup and get bread 50% off"
+    soupBreadOffer.requiredItems shouldBe Map(soup -> 2)
+    soupBreadOffer.discountedItem shouldBe bread
+    soupBreadOffer.priceDiscount shouldBe Price(40)
+    soupBreadOffer.getApplicationsCount(applicableBasket) shouldBe 2
+    soupBreadOffer.getTotalDiscount(applicableBasket) shouldBe Price(80)
+
+  }
+
+  test("multi item offer with multiple qualifying items, but single discounted item") {
+
+    // items
+    val soup: Item = Item("Soup", Price(65))
+    val bread: Item = Item("Bread", Price(80))
+
+    // baskets
+    val applicableBasket = new Basket(List(soup, soup, bread, soup, soup))
+
+    // offer
+    val soupBreadOffer: MultiOffer = new MultiOffer("Buy 2 tins of soup and get bread 50% off", Map(soup -> 2), bread, 50)
+
+    soupBreadOffer.name shouldBe "Buy 2 tins of soup and get bread 50% off"
+    soupBreadOffer.requiredItems shouldBe Map(soup -> 2)
+    soupBreadOffer.discountedItem shouldBe bread
+    soupBreadOffer.priceDiscount shouldBe Price(40)
+    soupBreadOffer.getApplicationsCount(applicableBasket) shouldBe 1
+    soupBreadOffer.getTotalDiscount(applicableBasket) shouldBe Price(40)
 
   }
 

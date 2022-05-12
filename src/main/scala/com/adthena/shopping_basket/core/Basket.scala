@@ -12,9 +12,10 @@ class Basket(val items: List[Item]) {
   /**
    * Auxiliary constructor
    * Only valid Items will be added to the basket
+   *
    * @param tryItems list parsed items
    */
-  def this(tryItems : Array[Try[Item]]) = {
+  def this(tryItems: Array[Try[Item]]) = {
     this(tryItems.flatMap(_.toOption).toList)
   }
 
@@ -32,24 +33,12 @@ class Basket(val items: List[Item]) {
 
   }
 
-  /**
-   *
-   * @param itemsToCheck list of items which presence in the basket is checked
-   * @return true - if all the basket contains all the items, false - otherwise
-   */
-  def contains(itemsToCheck: List[Item]): Boolean = {
-
-    val itemsIntersection: List[Item] = items.intersect(itemsToCheck)
-    itemsToCheck.diff(itemsIntersection).isEmpty
-
-  }
 
   /**
    *
-   * @param item an item which presence in the basket is checked
-   * @return true/false basket contains an item
+   * @param item and item to be counted in the basket
+   * @return number of occurrences of a given item in the basket
    */
-  def contains(item: Item): Boolean = items.contains(item)
-
+  def count(item: Item): Int = items.count(_.equals(item))
 
 }

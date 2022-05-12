@@ -13,7 +13,7 @@ object OffersDB {
 
   private lazy val list = List[Offer](
     new MultiOffer("Buy 2 tins of soup and get bread 50% off",
-      List(soup, soup, bread).flatten,
+      Map(soup.get -> 2, bread.get -> 1),
       bread.get,
       50
     ),

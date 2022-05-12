@@ -15,7 +15,6 @@ class BasketTest extends AnyFunSuite with Matchers {
   val bread: Item = Item("bread", Price(80))
   val milk: Item = Item("milk", Price(130))
   val apples: Item = Item("apples", Price(100))
-  val basket = new Basket(List(soup, bread, bread, milk, apples))
 
 
   test("getTotalCost() - empty basket") {
@@ -26,52 +25,41 @@ class BasketTest extends AnyFunSuite with Matchers {
 
   test("getTotalCost() - total basket cost without offers") {
 
+    val basket = new Basket(List(soup, bread, bread, milk, apples))
     basket.getTotalCost shouldBe Price(455)
 
   }
 
-  test("contains() - basket contains given items") {
+  test("count() - single item") {
 
-    val items = List(bread, bread, soup)
+    val basket = new Basket(List(bread, apples))
 
-    basket.contains(items) shouldBe true
-
-  }
-
-  test("contains() - basket does not contain all given items") {
-
-    val items = List(bread, bread, bread, soup)
-
-    basket.contains(items) shouldBe false
+    basket.count(bread) shouldBe 1
+    basket.count(apples) shouldBe 1
 
   }
 
-  test("contains() - basket contains empty list of items") {
+  test("count() - no items in the basket") {
 
-    val items = List().empty
+    val basket = new Basket(List(soup))
 
-    basket.contains(items) shouldBe true
-
-  }
-
-  test("contains() - basket does not contain a given item") {
-
-    emptyBasket.contains(bread) shouldBe false
+    basket.count(bread) shouldBe 0
 
   }
 
-  test("contains() - basket contains a given item") {
+  test("count() - empty basket") {
 
-    basket.contains(bread) shouldBe true
+    emptyBasket.count(bread) shouldBe 0
 
   }
+
 
   test("auxiliary constructor") {
 
     val input: Array[Try[Item]] = Array[Try[Item]](Try(soup), Failure(new Exception("test")))
     val basket = new Basket(input)
 
-    basket.contains(soup) shouldBe true
+    basket.count(soup) shouldBe 1
 
   }
 
